@@ -15,7 +15,7 @@ Second, download this repo and cd to this directory.
 Third, create a folder:
 
 ```
-mkdir out
+mkdir build
 ```
 
 Fourth, run the following command to compile your P4 program:
