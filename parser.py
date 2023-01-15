@@ -12,8 +12,6 @@ def read_files(dot_file,json_file):
         json_info = json.load(load_f)
     return dot_content,json_info
 
-
-
 def parse_dot_file(dot_content):
     # print(type(dot_content))
 
@@ -463,8 +461,7 @@ def run_parser(dot_file,json_file):
     fileds_lifetime_dict,branchFields_dict = return_dict(nodeID_of_edge,edge_label,ellipse_nodeID,ellipse_node_label,rectangle_nodeID,rectangle_node_label,ellipse_nodeID_label_dict,rectangle_nodeID_label_dict,controlBlock_table_filed_dict)
     print(fileds_lifetime_dict)
     print(branchFields_dict)
+    return branchFields_dict,fileds_lifetime_dict
 
 
 
-
-run_parser('out/ingress.dot',"out/1.json")
