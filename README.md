@@ -18,10 +18,12 @@ The code has three parts: preprocessor, analyzer, and optimizer/heuristic.
 - **melody.cpp** is the main program of Melody. 
 - **run.sh** is the startup script of Melody. Users run this script with the paths pointing to a P4 program and phv.txt to activate Melody. 
 - **libgurobi110.so** is the dynamic link library required for guanxi program running 
-- Input: 
-   - P4 program: example.p4
-   - Switch PHV Capacity: phv.txt
-- Output: 
-   - **heuristic_res.txt** and **ilp_res.txt**: the results of MIP and heuristic algorithms. 
-   - **output.txt**: the logs of Melody execution.
+
+Input: 
+- P4 program: example.p4
+- Switch PHV Capacity: phv.txt
+
+Output: 
+- **heuristic_res.txt** and **ilp_res.txt**: the results of MIP and heuristic algorithms. 
+- **output.txt**: the logs of Melody execution.
 
