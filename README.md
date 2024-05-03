@@ -427,5 +427,5 @@ We explain each line via an example: `meta.ingress_metadata.flowlet_map_index (1
 
 It means that Melody decides to place the field `meta.ingress_metadata.flowlet_map_index`, which is 13-bit, to the 6-th 16-bit PHV word.
 
-**To apply this result to Tofino, please refer to the Tofino specification (Compiler User Guide). In the specification, users can use programming pragma to guide PHV encoding during program compilation, e.g.,**
-`#pragma meta.ingress_metadata.flowlet_map_index 6` **means encoding the field "meta.ingress_metadata.flowlet_map_index" on the 6-th PHV word.**
+**To apply this result to Tofino, please refer to the Tofino specification (Compiler User Guide). In the specification, users can use target-specific programming instructions to guide PHV encoding during program compilation, e.g.,**
+`[Instruction Name] meta.ingress_metadata.flowlet_map_index 6` **means encoding the field "meta.ingress_metadata.flowlet_map_index" on the 6-th PHV word.**
