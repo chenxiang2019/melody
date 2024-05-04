@@ -19,7 +19,7 @@ The code has three parts: preprocessor, analyzer, and optimizer/heuristic.
 - **optimizer** includes two C++ programs, optimizer.cpp and heuristic.cpp, which respectively represent the two algorithms mentioned by the paper, MIP and heuristic.
 - **melody.cpp** is the main program of Melody. 
 - **run.sh** is the startup script of Melody. Users run this script with the paths pointing to a P4 program and phv.txt to activate Melody. 
-- **libgurobi110.so** is the dynamic link library required for guanxi program running 
+- **libgurobi110.so** is the dynamic link library required for Gurobi. 
 
 Input: 
 - P4 program: example.p4
@@ -140,6 +140,7 @@ Go to the project directory and execute the following commands with root permiss
 ```bash
 rm output.txt
 make clean
+chmod 777 preprocessor/gen.sh
 make
 ```
 
