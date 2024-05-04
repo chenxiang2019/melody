@@ -168,7 +168,7 @@ inline int ffl(vector<string> fields, int field_cnt, vector<int> field_width, in
         outputFile << "Assignment Result: " << endl;
         for (auto &pair : filped_map)
         {
-            outputFile << fields[pair.first] << " (" << field_width[pair.first]<<"bit" << ")"
+            outputFile << fields[pair.first] << " (" << field_width[pair.first]<<"bit" << ") "
                        << ": ";
             for (int word_index : pair.second)
             {

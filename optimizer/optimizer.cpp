@@ -72,7 +72,7 @@ inline pair<double, double> melody(vector<string> fields, int field_cnt, vector<
     {
         for (int j = 0; j < field_cnt; j++)
         {
-            if (L[i][j] == 1 && E[i][j] == 0 && i < j)
+            if (L[i][j] == 0 && E[i][j] == 0 && i < j)
             {
                 for (int k = 0; k < word_cnt; k++)
                 {
@@ -129,6 +129,14 @@ inline pair<double, double> melody(vector<string> fields, int field_cnt, vector<
     //     }
     //     model.addGenConstrOr(y[j], or_vars);
     // }
+//添加约束,一对一映射
+    for (int i = 0; i < field_cnt; ++i) {
+        GRBLinExpr expr = 0.0;
+        for (int j = 0; j < word_cnt; ++j) {
+            expr += x[i * word_cnt + j];
+        }
+        model.addConstr(expr == 1);
+    }
 
     GRBLinExpr obj_expr = 0;
     cout << "优化的目标式" << endl;
@@ -136,6 +144,13 @@ inline pair<double, double> melody(vector<string> fields, int field_cnt, vector<
     {
         obj_expr += y[j] * word_width[j];
     }
+
+
+
+
+
+
+
     model.setObjective(obj_expr, GRB_MINIMIZE);
 
     model.optimize();
@@ -175,15 +190,15 @@ inline pair<double, double> melody(vector<string> fields, int field_cnt, vector<
             if (index % word_cnt == 0)
             {
                 outputFile << endl;
-                outputFile << " " << fields[line_index] << " (" << field_width[line_index] << "bit) :";
+                outputFile << " " << fields[line_index] << " (" << field_width[line_index] << "bit) : ";
                 for (auto item2 : notZero_value_of_a_line)
                 {
-                    outputFile << item2 << " (" << word_width[item2] << "bit)"
+                    outputFile << item2 << " (" << word_width[item2-1] << "bit)"
                                << " ";
                 }
                 notZero_value_of_a_line.clear();
                 line_index++;
-                outputFile << endl;
+                // outputFile << endl;
                 index = 0;
             }
         }
