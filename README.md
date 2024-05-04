@@ -2,7 +2,9 @@
 
 The programmable switch offers a limited capacity of packet header vector (PHV) words that store packet header fields and metadata fields defined by network functions. However, existing switch compilers employ inefficient strategies of encoding fields on PHV words. Their encoding wastes scarce PHV words and may result in failures when deploying network functions. In this paper, we propose Melody, a new framework that reuses PHV words for as many fields as possible to achieve resource-efficient PHV encoding. Melody offers a field analyzer and an optimization framework. The analyzer identifies which fields can reuse PHV words while preserving the original packet processing logic. The framework integrates analysis results into its encoding to offer the resource-optimal decisions. 
 
-This work has been accepted by IEEE INFOCOM 2023. This is a joint work by Zhejiang University, Peking University, Fuzhou University, Yangzhou University, and Southeast University. This repo provides the source code of Melody that targets BMv2 software switches. 
+This work has been accepted by IEEE INFOCOM 2023. This is a joint work by Zhejiang University, Peking University, Fuzhou University, Yangzhou University, and Southeast University. 
+
+**This repo mainly provides the source code of Melody that targets BMv2 software switches.** If you want to apply the results of Melody to target switches, please check the Tofino-related paragraphs (marked by **[Tofino]**) in this readme.
 
 The name, Melody, refers to [the famous song written by David Zee Tao](https://www.youtube.com/watch?v=yEtU5tzZMkY&ab_channel=TimelessMusic). 
 
@@ -403,10 +405,28 @@ bash run.sh ./example.p4 analyzer/phv.txt
 
 Fourth, we observe the decisions made by Melody.
 
+Melody (MIP) yields:
+
+```base
+hdr.ethernet.dstAddr_1 (32bit) : 21 (32bit) 
+hdr.ethernet.dstAddr_2 (16bit) : 11 (16bit) 
+hdr.ipv4.dstAddr (32bit) : 20 (32bit) 
+hdr.ipv4.protocol (8bit) : 2 (8bit) 
+hdr.ipv4.srcAddr (32bit) : 19 (32bit) 
+hdr.ipv4.ttl (8bit) : 1 (8bit) 
+hdr.tcp.dstPort (16bit) : 10 (16bit) 
+hdr.tcp.srcPort (16bit) : 9 (16bit) 
+meta.ingress_metadata.ecmp_offset (14bit) : 8 (16bit) 
+meta.ingress_metadata.flow_ipg (32bit) : 18 (32bit) 
+meta.ingress_metadata.flowlet_id (16bit) : 7 (16bit) 
+meta.ingress_metadata.flowlet_lasttime (32bit) : 17 (32bit) 
+meta.ingress_metadata.flowlet_map_index (13bit) : 6 (16bit) 
+meta.ingress_metadata.nhop_ipv4 (32bit) : 16 (32bit) 
+```
+
 The heuristic of Melody yields:
 
 ```bash
-Assignment Result: 
 meta.ingress_metadata.flowlet_map_index (13bit): 6 (16bit)
 meta.ingress_metadata.flowlet_lasttime (32bit): 17 (32bit)
 meta.ingress_metadata.flow_ipg (32bit): 16 (32bit)
@@ -427,5 +447,19 @@ We explain each line via an example: `meta.ingress_metadata.flowlet_map_index (1
 
 It means that Melody decides to place the field `meta.ingress_metadata.flowlet_map_index`, which is 13-bit, to the 6-th 16-bit PHV word.
 
-**To apply this result to Tofino, please refer to the Tofino specification (Compiler User Guide). In the specification, users can use target-specific programming instructions to guide PHV encoding during program compilation, e.g.,**
+**[Tofino]**
+
+Applying our results to Tofino has three steps.
+
+**First, please refer to the Tofino specification (Compiler User Guide). In the specification, users can use target-specific programming instructions to guide PHV encoding during program compilation, e.g.,**
 `[Instruction Name] meta.ingress_metadata.flowlet_map_index 6` **means encoding the field "meta.ingress_metadata.flowlet_map_index" on the 6-th PHV word.**
+We cannot provide more details, e.g., specifications or compiler instructions, due to NDA. But we believe that this step is easy if you have a Tofino switch. 
+
+Second, inserting these programming instructions to the beginning of your P4 program.
+
+Third, compile the P4 program via the switch compiler. You can check the PHV consumption in the compilation logs.
+
+### Acknowledgement
+
+This project is developed by Wenbin Zhang and Hongyan Liu. 
+
