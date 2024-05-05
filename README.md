@@ -396,6 +396,10 @@ Each line has two numbers. The first number denotes the number of X-bit PHV word
 
 For example, `5 8` means the switch has 5 8-bit PHV words.
 
+Moreover, each PHV word has an index. In the above example, the top-5 PHV words, which are 8-bit, are indexed by 1-5. Then the following ten PHV words, which are 16-bit, are indexed by 6-15. 
+
+These indexes are used to establish mappings between fields and PHV words. See the output of Melody.
+
 **Due to NDA, we do not give real numbers of Tofino. Please update these numbers based on Tofino specifications.**
 
 Third, enter root and run Melody:
@@ -446,7 +450,7 @@ meta.ingress_metadata.ecmp_offset (14bit): 5 (16bit)
 
 We explain each line via an example: `meta.ingress_metadata.flowlet_map_index (13bit): 6 (16bit)`.
 
-It means that Melody decides to place the field `meta.ingress_metadata.flowlet_map_index`, which is 13-bit, to the 6-th 16-bit PHV word.
+It means that Melody decides to place the field `meta.ingress_metadata.flowlet_map_index`, which is 13-bit, to the 6-th PHV word, which is 16-bit.
 
 **[Tofino]**
 
